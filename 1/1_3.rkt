@@ -29,12 +29,30 @@
 
 ; exercise 1.30
 ; sum iteration implementation
+;(define (sum f a next b)
+;  (define (iter a result)
+;    (if (> a b)
+;        result
+;        (iter (next a) (+ result (f a)))))
+;  (iter a 0))
+
+; exercise 1.32 -iterative
+;(define (accumulate combiner null-value term a next b)
+;  (define (iter result a)
+;    (if (> a b)
+;        result
+;        (iter (combiner result (term a)) (next a))))
+;  (iter null-value a))
+
+; exercise 1.32 -recursive
+(define (accumulate combiner null-value term a next b)
+  (if (> a b)
+      null-value
+      (combiner (term a)
+                (accumulate combiner null-value term (next a) next b))))
+
 (define (sum f a next b)
-  (define (iter a result)
-    (if (> a b)
-        result
-        (iter (next a) (+ result (f a)))))
-  (iter a 0))
+  (accumulate + 0 f a next b))
 
 (define (inc i) (+ i 1))
 (define (sum-cubes a b)
@@ -82,12 +100,15 @@
 
 ; exercise 1.31
 ; product abstruction
+;(define (product f a next b)
+;  (define (iter a result)
+;    (if (> a b)
+;        result
+;        (iter (next a) (* result (f a)))))
+;  (iter a 1))
+
 (define (product f a next b)
-  (define (iter a result)
-    (if (> a b)
-        result
-        (iter (next a) (* result (f a)))))
-  (iter a 1))
+  (accumulate * 1 f a next b))
 
 ; factorial
 (define (factorial n)
@@ -105,4 +126,5 @@
      (product ff 2 inc2 (* n 2))))
 
 (john-pi 1000); 3.142377365093878
-  
+
+
