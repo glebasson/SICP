@@ -20,12 +20,21 @@
 ;      0
 ;      (+ (/ 1.0 (* a (+ a 2))) (pi-sum (+ a 4) b))))
 
-; general implementation
-(define (sum term a next b)
-  (if (> a b)
-      0
-      (+ (term a)
-         (sum term (next a) next b))))
+; recursive implementation
+;(define (sum term a next b)
+;  (if (> a b)
+;      0
+;      (+ (term a)
+;         (sum term (next a) next b))))
+
+; exercise 1.30
+; sum iteration implementation
+(define (sum f a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (f a)))))
+  (iter a 0))
 
 (define (inc i) (+ i 1))
 (define (sum-cubes a b)
@@ -70,7 +79,6 @@
         (sum f2 (+ a (* 2 (h))) next (- b (* 2 (h))))
         (sum f4 (+ a (* 1 (h))) next (- b (* 1 (h)))))))
 (integral-simpson cube 0 1 1000)
-
 
 
 
