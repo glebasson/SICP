@@ -51,6 +51,27 @@
       (combiner (term a)
                 (accumulate combiner null-value term (next a) next b))))
 
+; exercise 1,33
+(define (accumulate-filtered combiner null-value term a next b filter)
+  (define (iter result a)
+    (if (> a b)
+        result
+        (if (filter (term a))
+            (iter (combiner result (term a)) (next a))
+            (iter result (next a)))
+        ))
+  (iter null-value a))
+
+; sum of squares of primes
+;(define (ssp a b)
+;  (accumulate-filtered + 0 square a inc b prime?))
+
+; exercise 1.33 b
+;(define (exercise-f n)
+;  (define (predicate x)
+;    (= (gcd x n) 1))
+;  (accumulate-filtered * 1 identity 2 inc n predicate))
+
 (define (sum f a next b)
   (accumulate + 0 f a next b))
 
