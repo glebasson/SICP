@@ -80,6 +80,29 @@
         (sum f4 (+ a (* 1 (h))) next (- b (* 1 (h)))))))
 (integral-simpson cube 0 1 1000)
 
+; exercise 1.31
+; product abstruction
+(define (product f a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (* result (f a)))))
+  (iter a 1))
 
+; factorial
+(define (factorial n)
+  (product identity 1 inc n))
+(factorial 3)
 
- 
+(define (square x) (* x x))
+
+; John`s Williams pi approximation
+(define (john-pi n)
+  (define (ff n) (/ (* n (+ n 2))
+                    (square (+ n 1))))
+  (define (inc2 x) (+ 2 x))
+  (* 4.0
+     (product ff 2 inc2 (* n 2))))
+
+(john-pi 1000); 3.142377365093878
+  
