@@ -86,21 +86,21 @@
   (sum identity a inc b))
 
 
-(define (pi-sum a b)
-  (define (pi-next i) (+ i 4))
-  (define (pi-term x)
-    (/ 1 (* x (+ x 2))))
-  (sum pi-term a pi-next b))
+;(define (pi-sum a b)
+;  (define (pi-next i) (+ i 4))
+;  (define (pi-term x)
+;    (/ 1 (* x (+ x 2))))
+;  (sum pi-term a pi-next b))
 
 ; find pi
-(* (pi-sum 1 1000) 8)
+;(* (pi-sum 1 1000) 8)
 
 ; integral
-(define (integral f a b dx)
-  (define (integral-next x) (+ x dx))
-  (* dx
-     (sum f (+ a (/ dx 2)) integral-next b)))
-(integral cube 0 1 0.01)
+;(define (integral f a b dx)
+;  (define (integral-next x) (+ x dx))
+;  (* dx
+;     (sum f (+ a (/ dx 2)) integral-next b)))
+;(integral cube 0 1 0.01)
 
 
 ; exercise 1.29
@@ -148,4 +148,23 @@
 
 (john-pi 1000); 3.142377365093878
 
+(define (pi-sum a b)
+  (sum (lambda (x) (/ 1.0 (* x (+ x 2))))
+       a
+       (lambda (x) (+ x 4))
+       b))
 
+(* 8 (pi-sum 1 1000))
+
+(define (integral f a b dx)
+  (* (sum f
+          (+ a (/ dx 2.0))
+          (lambda (x) (+ x dx))
+          b)
+     dx))
+
+; exercise 1.34
+;(define (f g)
+;  (g 2))
+
+;(f f)
