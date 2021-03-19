@@ -57,8 +57,8 @@
 ;(fixed-point cos 1.0)
 ;(fixed-point (lambda (y) (+ (sin y) (cos y))) 1.0)
 
-(define (sqrt x)
-  (fixed-point (lambda (y) (average y  (/ x y))) 1.0))
+;(define (sqrt x)
+;  (fixed-point (lambda (y) (average y  (/ x y))) 1.0))
 ;(sqrt 2)
 
 ; exercise 1.35
@@ -102,4 +102,12 @@
      (- x)))
 (tan-cf 1.0
         500)
+
+(define (average-damp f)
+  (lambda (x) (average x (f x))))
+
+(define (sqrt x)
+  (fixed-point (average-damp (lambda (y) (/ x y)))
+               1.0))
+(sqrt 2)
 
