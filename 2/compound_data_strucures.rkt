@@ -27,7 +27,8 @@
   (display (x-point p))
   (display ", ")
   (display (y-point p))
-  (display ")"))
+  (display ")")
+  (newline))
 
 (print-point (midpoint-segment (make-segment (make-point -1 -1) (make-point 1 1))))
 
@@ -41,3 +42,42 @@
 ;(define (area rect)
 ;  (* (width rect) (height rect)))
 
+(define (length items)
+  (if (null? items)
+      0
+      (+ 1 (length (cdr items)))))
+(define odds (list 1 3 5 7))
+(define even (list 0 2 4 6))
+(length odds)
+(define squares (list 0 1 4 9 16))
+
+(define (append list1 list2)
+  (if (null? list1)
+      list2
+      (cons (car list1) (append (cdr list1) list2))))
+
+(append squares odds)
+
+; exercise 2.17
+(define (last-pair list)
+      (if (null? (cdr list))
+          (car list)
+          (last-pair (cdr list))))
+(last-pair (list 1))
+
+(define (del-last-pair list)
+  (if (null? (cdr list))
+      null
+      (cons (car list) (del-last-pair (cdr list))))
+  )
+(del-last-pair (list 1))
+
+
+; exercise 2.18
+(define (reverse list1)
+  (if (null? list1)
+      (list)
+      (cons (last-pair list1)
+        (reverse (del-last-pair list1))))
+  )
+(reverse (list 1 2 3 4 5))
