@@ -81,3 +81,43 @@
         (reverse (del-last-pair list1))))
   )
 (reverse (list 1 2 3 4 5))
+(define (even? x)
+  (= 0 (remainder x 2)))
+(define (odd? x)
+  (= 1 (remainder x 2)))
+
+(define (filter f list1)
+  (if (null? list1)
+      (list)
+      (if (f (car list1))
+          (cons (car list1) (filter f (cdr list1)))
+          (filter f (cdr list1)))
+      ))
+(filter (lambda (x) (> x 0)) (list -3 -2 -1 0 1 2 3 4))
+
+(define (same-parity par . l)
+  (define (test x)
+    (if (even? par)
+        even?
+        odd?))
+  (filter test (cons par l)))
+
+(same-parity 16 2 3 4 5 6)
+
+(define (map proc items)
+  (if (null? items)
+      (list)
+      (cons (proc (car items))
+            (map proc (cdr items)))))
+
+(map abs (list -10 25))
+(map (lambda (x) (* x x)) (list 1 2 3 4))
+
+; exe 2.23
+(define (for-each f list1)
+  (unless (null? list1)
+    (f (car list1))
+    (for-each f (cdr list1))))
+
+(for-each (lambda (x) (newline) (display x))
+          (list 57 321 88))
