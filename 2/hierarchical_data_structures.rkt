@@ -40,7 +40,23 @@
 (list X X)
 (fringe (list X X))
 
+; exercise 2.31
+(define (tree-map f tree)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+             (tree-map f sub-tree)
+             (f sub-tree)))
+   tree)
+  )
+(tree-map (lambda (y) (* y y)) (list X X))
 
+; exercise 2.32
+; TODO
+;(define (subsets s)
+;  (if (null? s)
+;      (list nil)
+;      (let ((rest (subsets (cdr s))))
+;        (append rest (map <??> rest)))))
 
 
 
