@@ -111,3 +111,24 @@
                1.0))
 (sqrt 2)
 
+(define (deriv g)
+  (lambda (x)
+  (/ (- (g (+ x dx)) (g x))
+     dx)))
+(define dx 0.0001)
+(define (cube x) (* x x x))
+((deriv cube) 5)
+
+; Newton`s method
+(define (newtons-transform g)
+  (lambda (x)
+    (- x (/ (g x) ((deriv g) x)))))
+
+(define (newtons-method g guess)
+  (fixed-point (newtons-transform g) guess))
+
+(define (newtons-sqrt x)
+  (newtons-method (lambda (y) (- (square y) x))
+                  1.0))
+(newtons-sqrt 2)
+
