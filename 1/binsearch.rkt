@@ -132,3 +132,65 @@
                   1.0))
 (newtons-sqrt 2)
 
+; exe 1.40
+(define (cubic a b c)
+  (lambda (x) (+ (* x x x)
+                 (* a x x)
+                 (* b x)
+                 c)))
+
+(newtons-method (cubic 1 1 1) 1.0)
+
+; exe 1.41
+(define (double f)
+  (lambda (x) (f (f x))))
+(define (inc x)
+  (+ x 1))
+(((double (double double)) inc) 5)
+
+; exe 1.42
+(define (compose f g)
+  (lambda (x)
+    (f (g x))))
+((compose square inc) 6)
+
+; exe 1.43
+(define (repeated f n)
+  (if (= n 1)
+      (lambda (x) (f x))
+      (compose f (repeated f (- n 1)))))
+((repeated square 2) 5)
+
+(define (smooth f)
+  (lambda (x)
+    (/ (+ (f x)
+          (f (+ x dx))
+          (f (- x dx)))
+       3)))
+((smooth square) 3)
+
+; exercise 1.44
+(define (n-fold-smoothed f n)
+  (lambda (x)
+    (((repeated smooth n) f) x)))
+
+((n-fold-smoothed square 5) 10)
+
+; exercise 1.46
+(define (iterative-improve f good-enough?)
+  (lambda (x)
+    (if (good-enough? x (f x))
+        x
+        ((iterative-improve f good-enough?) (f x)))))
+
+(define (fixed-point2 f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  ((iterative-improve f close-enough?) first-guess))
+
+; exercise 1.45
+(define (n-square x n)
+  (fixed-point2
+   ((repeated average-damp (floor (/ (log n) (log 2)))) (lambda (y) (/ x (expt y (- n 1)))))
+   1.0))
+(n-square 2 100)
