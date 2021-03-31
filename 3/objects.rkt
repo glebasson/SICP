@@ -35,7 +35,10 @@
 (W1 10)
 (W2 50)
 
-(define (make-account balance)
+; exercise 3.3
+(define (make-account secret balance)
+  (define (authenticated? pswd)
+    (eq? secret pswd))
   (define (withdraw amount)
   (if (>= balance amount)
       (begin (set! balance (- balance amount))
@@ -44,18 +47,20 @@
   (define (deposit amount)
     (set! balance (+ balance amount))
     balance)
-  (define (dispatch m)
-    (cond ((eq? m 'withdraw) withdraw)
+  (define (dispatch pswd m)
+    (if (authenticated? pswd)
+        (cond ((eq? m 'withdraw) withdraw)
           ((eq? m 'deposit) deposit)
           (else (error "UNKNOWN CALL"
-                       m))))
+                       m)))
+        (lambda (x) (display "WRONG PASSWORD!\n"))))
   dispatch)
 
-(define acc (make-account 100))
-((acc 'withdraw) 50)
-((acc 'withdraw) 60)
-((acc 'deposit) 40)
-((acc 'withdraw) 60)
+(define acc (make-account 'secret-password 100))
+((acc 'secret-password 'withdraw) 50)
+((acc 'secret-password 'withdraw) 60)
+((acc 'wrong-password 'deposit) 40)
+((acc 'secret-password 'withdraw) 60)
 
 ; exercise 3.1
 (define (make-accumulator value)
@@ -88,3 +93,4 @@
 (s 'how-many-calls?)
 (s 'reset-count)
 (s 'how-many-calls?)
+
