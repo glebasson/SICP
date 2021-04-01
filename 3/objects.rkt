@@ -35,7 +35,7 @@
 (W1 10)
 (W2 50)
 
-; exercise 3.3
+; TODO: exercise 3.3
 (define (make-account secret balance)
   (define (authenticated? pswd)
     (eq? secret pswd))
